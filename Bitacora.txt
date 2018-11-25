@@ -1,0 +1,98 @@
+OBJETIVO
+---------------------------
+- Creación de un proyecto Rest con Spring Boot de forma incremental.
+
+
+- Servicio rest que proporciona multiplicaciones onLine para entrenar al usuario y que puntua y establece una clasificación entre usuarios
+
+- Utilizar TDD
+
+
+
+***************************************************************************************
+  FASE- 01
+---------------------------------------------------------------------------------------
+USER STORY 1
+
+Como usuario de la aplicación quiere que se me presente una multiplicación aleatoria que pueda resolver onLine, no demasiado fácil, para que pueda entrenar y mejorar mi cálculo mental todos los días 
+
+
+Tareas:
+1. Crear un servicio básico con la lógica de negocio
+2. Crear un endpoint para acceder al servicio (REST API)
+3. Crear una página WEB básica para acceder a a las multiplicaciones
+
+***************************************************************************************
+
+
+
+
+PASOS
+---------------------------
+1- Crear el esqueleto de la aplicación mediante Spring Initializr web: https://start.spring.io/
+
+	- Artifact coordinates
+		- Group: Microservice.book
+		- Artifact social-multiplication
+		- Package Name: microservice.book.socialmultiplication
+		- Packaging: Jar
+		- Selected Dependencies: WEB
+		
+		Generate a MAVEN Project with Java and Spring Boot 2.1.0
+			- HE descargado: social-multiplication.zip
+			
+2- Compilo con mvn clean compile. (No he utilizado el maven que proporciona el proyecto generado  en la pagina) ->OK 
+3- Ejecuto con mvnw spring-boot:run (Utilizando el maven proporcionado por el portal) - TODO: Debería ver como ejecutar con maven del equipo
+	Cascazo impresionante: java.net.UnknownHostException.
+	Vuelvo a ejecutar uy funciona. Posiblemente haya sido un fallo de conexión a Internet.
+	
+	OK-> Aparece el mensaje: 
+	2018-11-25 13:38:03.620  INFO 5504 --- [main] m.b.s.SocialMultiplicationApplication: Started SocialMultiplicationApplication in 5.943 seconds (JVM running for 61.56)
+	2018-11-25 13:40:16.003  INFO 5504 --- [nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]: Initializing Spring DispatcherServlet 'dispatcherServlet'
+	
+	
+4- Pruebo navegar a: http://localhost:8080/ --> Ok. Devuelve la página de error:
+	Whitelabel Error Page
+	This application has no explicit mapping for /error, so you are seeing this as a fallback
+	OK-> Está escuchando en el puerto 8080, aunque no hace nada.
+	
+5- Importo el proyecto con Eclipse para comenzar a codificar. OK. -> Ejecuto desde Eclipse->Ok
+	
+5- Creo la infraestructura mínima para poder crear el Test(TDD). Para ello se necesita:
+	- Dominio: Multiplication.java
+	- Servicio: 
+		MultiplicationService.java -> Encargado de generar el objeto multiplicación
+		RandomGeneratorService.java -> Encargado de generar los números aleatorios. Creado para simplificar la generación de números aleatorios y facilitar las pruebas
+	
+6- Creo el Test: MultiplicationServiceTest.java El Test en si.
+	- Creo mediante eclipse una clase de prueba sobre la interfaz RandomGeneratorService. -> Ok
+	- Añado la anotación: 
+		@RunWith(SpringRunner.class) -> Si se usa JUnit4, permite el uso de ciertas anotaciones (?)
+		@SpringBootTest -> Arranca el contexto de Spring y permite el uso de anotaciones útiles
+		
+	- Creo el atributo RandomGeneratorService y le pongo la anotación: @MockBean ->  Le dice a Spring que inyecte un objeto Mock del tipo RandomGeneratorService en vez de buscarlo.
+	
+	- Creo MultiplicationService y le digo a Spring que lo gestione @Autowired
+	
+	- Creo el método createRandomMultiplicationTest() y le añado la anotación @Test
+		-Creo las secciones: Given,  When,  Then. Para ello tengo que importar de forma estatica  org.mockito.BDDMockito.*
+		
+	- Ejecuto el caso y se produce el error: No qualifying bean of type 'microservice.book.socialmultiplication.service.MultiplicationService' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {@org.springframework.beans.factory.annotation.Autowired(required=true)} -->OK No puede funcionar porque no tengo implementación.
+	
+	- Hasta aquí he creado el caso de prueba. 
+	
+7- Implemento el servicio: MultiplicationServiceImpl
+	- Añado la notación @Service
+	- Implemento el servicio createRandomMultiplication(). Problema: Tengo que generar los números aleatorios mdiante la llamada al servicio RandomGeneratorService
+		- Creo la referencia mediante atributo de clase privado: private RandomGeneratorService randomGeneratorService;
+		- Lo inyecto mdiante el constructor
+		
+8- Ejecuto el Test- OK. 
+9- Ejecuto SocialMultiplicationApplicationTests -> Error. Falla al cargar el contexto, porque no se ha implmentado RandomGeneratorService
+	- Deshabilito el Test
+	
+
+
+POR HACER
+---------------------------
+- Implementar RandomGeneratorService
