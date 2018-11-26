@@ -13,29 +13,29 @@ import org.springframework.test.context.junit4.SpringRunner;
 import microservice.book.socialmultiplication.domain.Multiplication;
 
 
-@RunWith(SpringRunner.class)
-@SpringBootTest
+//@RunWith(SpringRunner.class)
+//@SpringBootTest
 public class RandomGeneratorServiceTest {
 	
-	@MockBean
-	private RandomGeneratorService randomGeneratorService;
-	
-	@Autowired
-	private MultiplicationService multiplicationService;
-	
-	@Test
-	public void createRandomMultiplicationTest() {
-		
-		//Given: El Mock devuelve primero 50 y después 30
-		given(randomGeneratorService.generateRandomFactor()).willReturn(50,30);
-		
-		//When
-		Multiplication multiplication = multiplicationService.createRandomMultiplication();
-		System.out.println(multiplication);
-		//Then
-		assertThat(multiplication.getFactorA()).isEqualTo(50);
-		assertThat(multiplication.getFactorB()).isEqualTo(30);
-		assertThat(multiplication.getResult()).isEqualTo(1500);
-	}
+//	@MockBean
+//	private RandomGeneratorService randomGeneratorService;
+//	
+//	@Autowired
+//	private MultiplicationService multiplicationService;
+//	
+//	@Test
+//	public void createRandomMultiplicationTest() {
+//		
+//		//Given: El Mock devuelve primero 50 y después 30
+//		given(randomGeneratorService.generateRandomFactor()).willReturn(50,30);
+//		
+//		//When
+//		Multiplication multiplication = multiplicationService.createRandomMultiplication();
+//
+//		//Then
+//		assertThat(multiplication.getFactorA()).isEqualTo(50);
+//		assertThat(multiplication.getFactorB()).isEqualTo(30);
+//		assertThat(multiplication.getResult()).isEqualTo(1500);
+//	}
 
 }
