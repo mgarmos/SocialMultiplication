@@ -6,28 +6,30 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
 
-@RunWith(SpringRunner.class)
-@SpringBootTest
-public class RandomGeneratorServiceTest {
+public class RandomGeneratorServiceImplTest {
+	
 
-	@Autowired
-	private RandomGeneratorService randomGeneratorService;
+	private RandomGeneratorServiceImpl randomGeneratorServiceImpl;
+	
+	
+	@Before
+	public void setUp() throws Exception {
+		this.randomGeneratorServiceImpl = new RandomGeneratorServiceImpl();
+	}
 
-	/*
-	 * Prueba que todos los valores generados están entre 11 y 99
-	 */
+	@After
+	public void tearDown() throws Exception {
+	}
+
 	@Test
 	public void generateRandomFactorIsBetweenExpectedLimits() {
-
 		// Al generar una lista de numeros aleatorios
 		List<Integer> numerosAleatorios = IntStream.range(0, 1000)
-				.map(i -> randomGeneratorService.generateRandomFactor()).boxed().collect(Collectors.toList());
+				.map(i -> randomGeneratorServiceImpl.generateRandomFactor()).boxed().collect(Collectors.toList());
 
 		// Todos los valores devueltos estan entre 11 y 99
 		assertThat(numerosAleatorios)

@@ -10,7 +10,7 @@ OBJETIVO
 
 
 ***************************************************************************************
-  FASE- 01
+  V-01
 ---------------------------------------------------------------------------------------
 USER STORY 1
 
@@ -96,3 +96,30 @@ PASOS
 POR HACER
 ---------------------------
 - Implementar RandomGeneratorService
+
+
+
+
+***************************************************************************************
+  V-02
+---------------------------------------------------------------------------------------
+
+Tareas:
+1- Seguir añadiendo las pruebas del negocio y su implementación
+
+
+***************************************************************************************
+1. Implemento RandomGeneratorServiceTest, llamandolo 1000 veces y comprobando que el valor devuelto está entre 11 y 99
+	-> Error:  org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type 'microservice.book.socialmultiplication.service.RandomGeneratorService' available: 
+	-> Tengo que implementar el servicio
+2- Implemento RandomGeneratorServiceImpl: Dejo la implementación por defecto y pruebo de nuevo. ->Error (Ok) Está devolviendo todo ceros hasta que implmente 	el 	método. Nota. Esta clase arranca el contexto. Ddebería crear una prueba de la clase RandomGeneratorServiceImpl sin arrancar el contexto.
+
+3. Creo Test para la clase RandomGeneratorServiceImplsin arrancar el contexto. 
+	OK
+4. Creo el test de MultiplicationServiceImpl.
+	- Necesito instanciar la calse a probar y para ello tengo que pasarle RandomGeneratorService. Utilizo un Mock
+	
+5 Continuo con las clases de dominio User y MultiplicationResultAttempt que relaciona un usuario con el resultado
+6. Añado el método boolean checkAttempt al servicio de Multiplicacion
+
+7. Creo el método de prueba: Si la multiplicacion es 50 x 60 el resultado será 3000 y el método devolverá true
