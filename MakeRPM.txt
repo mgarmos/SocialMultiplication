@@ -1,0 +1,106 @@
+- Parto de un proyecto que compila
+- Ejecuto mvn rpm:rpm. Da error ->
+	The parameters 'group' for goal org.codehaus.mojo:rpm-maven-plugin:2.2.0:rpm are missing or invalid
+	Ver: https://stackoverflow.com/questions/36582990/spring-boot-maven-rpm
+	Añado el plugin al pom:
+	<plugin>
+	  <groupId>org.codehaus.mojo</groupId>
+	  <artifactId>rpm-maven-plugin</artifactId>
+	  <version>2.2.0</version>
+	</plugin>
+	-> Sigue dando el mismo error. -> Añado algo de configuracion
+	-> Añado y compilo
+					<configuration>
+					<group>Application</group>
+				</configuration>
+		-> [ERROR] Failed to execute goal org.codehaus.mojo:rpm-maven-plugin:2.2.0:rpm (default-cli) on project social-multiplication: Unable to query for default vendor from RPM: Error while executing process. Cannot run program "rpm": error=2, No existe el archivo o el directorio -> [Help 1]
+		Se queja de otra cosa-> Meto todo el plugin:
+		
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>rpm-maven-plugin</artifactId>
+				<version>2.2.0</version>
+				<extensions>true</extensions>
+				<executions>
+					<execution>
+						<id>generate-rpm</id>
+						<goals>
+							<goal>rpm</goal>
+						</goals>
+						<phase>prepare-package</phase>
+					</execution>
+				</executions>
+				<configuration>
+					<group>Application</group>
+					<packager>SWWDC</packager>
+					<mappings>
+						<mapping>
+							<directory>${basedir}/target</directory>
+							<sources>
+								<source>
+									<location>target/classes</location>
+								</source>
+							</sources>
+						</mapping>
+					</mappings>
+					<name>xsmartadapter</name>
+					<executable>rpmbuild</executable>
+					<workingDirectory>${basedir}</workingDirectory>
+				</configuration>
+			</plugin>
+			
+	Nada. Pruebo con otra página:
+	https://rombertw.wordpress.com/2010/05/20/maven-recipe-delivering-applications-as-rpms/
+	
+	Añado el plugin:
+				<plugin>
+				<groupId>org.springframework.boot</groupId>
+				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>rpm-maven-plugin</artifactId>
+				<version>2.0.1</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>rpm</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<copyright>2010, NoBody</copyright>
+					<group>Development</group>
+					<description>Maven Recipe: RPM Package.</description>
+					<mappings>
+						<mapping>
+							<directory>${app.home}/lib/</directory>
+							<dependency />
+							<artifact />
+						</mapping>
+						<mapping>
+							<directory>${app.home}/conf</directory>
+							<configuration>true</configuration>
+							<sources>
+								<source>
+									<location>${project.build.outputDirectory}/app.properties</location>
+									<destination>app.sample.properties</destination>
+								</source>
+							</sources>
+						</mapping>
+						<mapping>
+							<directory>${app.home}/logs</directory>
+						</mapping>
+					</mappings>
+				</configuration>
+			</plugin>
+			
+		[ERROR] Failed to execute goal org.codehaus.mojo:rpm-maven-plugin:2.2.0:rpm (generate-rpm) on project social-multiplication: Unable to query for default vendor from RPM: Error while executing process. Cannot run program "rpm": error=2, No existe el archivo o el directorio -> [Help 1]
+		Buscando en google: El plugin sólo se puede ejecutar en RedHat o Centos -> Instalo el paquete rpm
+		
+		OK- Conseguido -> 
+		- Ha creado en el target una carpeta RPM
+		- Ha generado el objeto social-multiplication-0.0.1-SNAPSHOT20190115184126.noarch.rpm
+		- Dentro del paquete en: /./opt/app/lib/ estan los jar y en /./opt/app/logs/ está vacío
+		
+		También ha generado un fichero spec con las especificaciones del rpm, algo parecido a un manifest
