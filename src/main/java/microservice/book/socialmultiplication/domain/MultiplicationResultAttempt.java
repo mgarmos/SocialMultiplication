@@ -2,17 +2,15 @@ package microservice.book.socialmultiplication.domain;
 
 public class MultiplicationResultAttempt {
 
-	private User user;
-	private Multiplication multiplication;
-	private int resultAttempt;
+	private final User user;
+	private final Multiplication multiplication;
+	private final int resultAttempt;
 
 	public MultiplicationResultAttempt() {
 		this.user = null;
 		this.multiplication = null;
 		this.resultAttempt = -1; // ?
 	}
-	
-	
 
 	public MultiplicationResultAttempt(User user, Multiplication multiplication, int resultAttempt) {
 		super();
@@ -20,8 +18,6 @@ public class MultiplicationResultAttempt {
 		this.multiplication = multiplication;
 		this.resultAttempt = resultAttempt;
 	}
-
-
 
 	public User getUser() {
 		return user;
@@ -53,25 +49,33 @@ public class MultiplicationResultAttempt {
 
 	@Override
 	public boolean equals(Object obj) {
-		if (this == obj)
+		if (this == obj) {
 			return true;
-		if (obj == null)
+		}
+		if (obj == null) {
 			return false;
-		if (getClass() != obj.getClass())
+		}
+		if (getClass() != obj.getClass()) {
 			return false;
-		MultiplicationResultAttempt other = (MultiplicationResultAttempt) obj;
+		}
+		final MultiplicationResultAttempt other = (MultiplicationResultAttempt) obj;
 		if (multiplication == null) {
-			if (other.multiplication != null)
+			if (other.multiplication != null) {
 				return false;
-		} else if (!multiplication.equals(other.multiplication))
+			}
+		} else if (!multiplication.equals(other.multiplication)) {
 			return false;
-		if (resultAttempt != other.resultAttempt)
+		}
+		if (resultAttempt != other.resultAttempt) {
 			return false;
+		}
 		if (user == null) {
-			if (other.user != null)
+			if (other.user != null) {
 				return false;
-		} else if (!user.equals(other.user))
+			}
+		} else if (!user.equals(other.user)) {
 			return false;
+		}
 		return true;
 	}
 

@@ -123,3 +123,45 @@ Tareas:
 6. Añado el método boolean checkAttempt al servicio de Multiplicacion
 
 7. Creo el método de prueba: Si la multiplicacion es 50 x 60 el resultado será 3000 y el método devolverá true
+
+
+
+***************************************************************************************
+  V-03
+---------------------------------------------------------------------------------------
+Voy a añadir SonarLint al Eclipse y Jacoco para crear covertura de pruebas
+- Instalo SonarLint 4.0.0
+- Creo un Workingset para ordenar el trabajo
+- Modifico Save Actions para que al guardar, automáticamente organice las importaciones, formatee el código y ponga llaves
+	VER: http://www.eclipseonetips.com/2009/12/13/automatically-format-and-cleanup-code-every-time-you-save/
+	
+- Instalo el plugin de jacoco: 
+			<plugin>
+				<groupId>org.jacoco</groupId>
+				<artifactId>jacoco-maven-plugin</artifactId>
+				<version>0.8.1</version>
+				<executions>
+					<execution>
+						<id>default-prepare-agent</id>
+						<goals>
+							<goal>prepare-agent</goal>
+						</goals>
+					</execution>
+					<execution>
+						<id>default-report</id>
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>report</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+	
+	Para ejecutarlo hago mnv clean install , mvn verify , mvn jacoco:report y veo el resultado en 
+		\SocialMultiplication\target\site\jacoco
+		
+		VER: https://thepracticaldeveloper.com/2016/02/06/test-coverage-analysis-for-your-spring-boot-app/
+		
+- Instalar sonar y asociar con mvn
+
+

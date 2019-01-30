@@ -6,8 +6,8 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class RandomGeneratorServiceImpl implements RandomGeneratorService {
-	private final static int MINIMUM_FACTOR = 11;
-	private final static int MAXIMUM_FACTOR = 99;
+	private static final int MINIMUM_FACTOR = 11;
+	private static final int MAXIMUM_FACTOR = 99;
 
 	@Override
 	public int generateRandomFactor() {
